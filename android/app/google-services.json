@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "35484231129",
+    "firebase_url": "https://synequip-2020.firebaseio.com",
+    "project_id": "synequip-2020",
+    "storage_bucket": "synequip-2020.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:35484231129:android:0d13259c696b58cdbca5c8",
+        "android_client_info": {
+          "package_name": "com.example.flutter_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "35484231129-rn177tm0t2mcicvp1q1flcgagsbl265q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDyMT8t_DlTKh5BKR8EgwZrFlSPTZPGY1w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "35484231129-rn177tm0t2mcicvp1q1flcgagsbl265q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
