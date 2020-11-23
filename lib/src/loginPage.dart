@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_login_signup/src/signup.dart';
+import 'package:flutter_app/main.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'package:firebase_database/firebase_database.dart';
 import 'Widget/bezierContainer.dart';
+
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key key, this.title}) : super(key: key);
@@ -60,7 +61,12 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _submitButton() {
-    return Container(
+    return InkWell(
+        onTap: () {
+      writeData();
+    },
+
+      child: Container(
       width: MediaQuery.of(context).size.width,
       padding: EdgeInsets.symmetric(vertical: 15),
       alignment: Alignment.center,
@@ -77,10 +83,13 @@ class _LoginPageState extends State<LoginPage> {
               begin: Alignment.centerLeft,
               end: Alignment.centerRight,
               colors: [Colors.lightBlue[300], Colors.lightBlue[400]])),
-      child: Text(
-        'Login',
-        style: TextStyle(fontSize: 20, color: Colors.white),
-      ),
+
+        child: Text(
+          'Login',
+          style: TextStyle(fontSize: 20, color: Colors.white),
+        ),
+
+    ),
     );
   }
 
@@ -101,7 +110,6 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
 
-
           SizedBox(
             width: 20,
           ),
@@ -109,8 +117,6 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-
-
 
 
   Widget _title() {
@@ -191,4 +197,12 @@ class _LoginPageState extends State<LoginPage> {
       ),
     ));
   }
+}
+void writeData()
+{
+  final dBRef= FirebaseDatabase.instance.reference();
+  dBRef.child("1").set({
+    'id':"ID1",
+    'data':"This is a new data"
+  });
 }
