@@ -31,8 +31,6 @@ dependencies:
   http: any
   firebase_core: ^0.5.2
   firebase_database: ^4.3.0
-  syncfusion_flutter_gauges: ^18.2.44
-  app_usage: ^1.0.1
   google_fonts: ^0.3.5
 
 
