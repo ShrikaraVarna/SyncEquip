@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:provider/provider.dart';
 import 'Widget/bezierContainer.dart';
-
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key key, this.title}) : super(key: key);
@@ -15,6 +17,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  TextEditingController Username = new TextEditingController();
+  TextEditingController Password = new TextEditingController();
+  final dBRef= FirebaseDatabase.instance.reference();
   Widget _backButton() {
     return InkWell(
       onTap: () {
@@ -63,7 +68,14 @@ class _LoginPageState extends State<LoginPage> {
   Widget _submitButton() {
     return InkWell(
         onTap: () {
-      writeData();
+      context.read<Authenticate>().login(
+        email: Username.text.trim(),
+        password: Password.text.trim()
+      );
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => autenticatewrap()),
+      );
     },
 
       child: Container(
@@ -146,8 +158,19 @@ class _LoginPageState extends State<LoginPage> {
   Widget _emailPasswordWidget() {
     return Column(
       children: <Widget>[
-        _entryField("Email id"),
-        _entryField("Password", isPassword: true),
+        TextFormField(
+          controller: Username,
+          decoration: InputDecoration(
+              hintText: 'Input Username'
+          ),
+        ),
+        TextFormField(
+          controller: Password,
+          obscureText: true,
+          decoration: InputDecoration(
+              hintText: 'Input Password'
+          ),
+        ),
       ],
     );
   }
@@ -155,54 +178,55 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
-    return Scaffold(
-        body: Container(
-      height: height,
-      child: Stack(
-        children: <Widget>[
-          Positioned(
-              top: -height * .15,
-              right: -MediaQuery.of(context).size.width * .4,
-              child: BezierContainer()),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  SizedBox(height: height * .2),
-                  _title(),
-                  SizedBox(height: 50),
-                  _emailPasswordWidget(),
-                  SizedBox(height: 20),
-                  _submitButton(),
-                  Container(
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    alignment: Alignment.centerRight,
-                    child: Text('Forgot Password ?',
-                        style: TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.w500)),
-                  ),
-                  _divider(),
-
-                  SizedBox(height: height * .055),
-
-                ],
+      return Scaffold(
+          body: Container(
+        height: height,
+        child: Stack(
+          children: <Widget>[
+            Positioned(
+                top: -height * .15,
+                right: -MediaQuery.of(context).size.width * .4,
+                child: BezierContainer()),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    SizedBox(height: height * .2),
+                    _title(),
+                    SizedBox(height: 50),
+                    _emailPasswordWidget(),
+                    SizedBox(height: 20),
+                    _submitButton(),
+                    Container(
+                      padding: EdgeInsets.symmetric(vertical: 10),
+                      alignment: Alignment.centerRight,
+                      child: Text('Forgot Password ?',
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.w500)),
+                    ),
+                    _divider(),
+                    SizedBox(height: height * .055),
+                  ],
+                ),
               ),
             ),
-          ),
-          Positioned(top: 40, left: 0, child: _backButton()),
-        ],
-      ),
-    ));
+            Positioned(top: 40, left: 0, child: _backButton()),
+          ],
+        ),
+      )
+      );
   }
-}
-void writeData()
-{
-  final dBRef= FirebaseDatabase.instance.reference();
-  dBRef.child("1").set({
-    'id':"ID1",
-    'data':"This is a new data"
-  });
-}
+  void writeData()
+  {
+    int val= 0;
+    val++;
+    dBRef.child(val.toString()).set({
+      'email':Username.text,
+      'password':Password.text
+    });
+  }
+} //end of _LoginPageState
+
