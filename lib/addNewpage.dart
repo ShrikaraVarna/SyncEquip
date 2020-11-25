@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:SyncEquip/demo.dart';
+import 'qrscan.dart';
 
 // Demonstrates how to use autofill hints. The full list of hints is here:
 // https://github.com/flutter/engine/blob/master/lib/web_ui/lib/src/engine/text_editing/autofill_hint.dart
@@ -10,13 +11,20 @@ class addNewpage extends StatefulWidget {
 
 class _addNewpageState extends State<addNewpage> {
   final _formKey = GlobalKey<FormState>();
+  TextEditingController devicename = new TextEditingController();
+  TextEditingController devicedept = new TextEditingController();
+  TextEditingController mfd= new TextEditingController();
+  TextEditingController servicedate = new TextEditingController();
+  TextEditingController building = new TextEditingController();
+  TextEditingController floor = new TextEditingController();
+  TextEditingController room = new TextEditingController();
 
   Widget _scanButton() {
     return InkWell(
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => Demo()),
+          MaterialPageRoute(builder: (context) => QRScan()),
         );
       },
 
@@ -107,37 +115,44 @@ class _addNewpageState extends State<addNewpage> {
                         fontSize: 30,
                       decoration: TextDecoration.underline,),),
                     TextFormField(
+                      controller: devicename,
                       decoration: InputDecoration(
                         labelText: 'Name of Device',
                       ),
                     ),
                     TextFormField(
+                      controller: devicedept,
                       decoration: InputDecoration(
                         labelText: "Device's Department",
                       ),
                     ),
                     TextField(
+                      controller: servicedate,
                       decoration: InputDecoration(
                         labelText: 'Time for next Service',
                       ),
                     ),
                     TextField(
+                      controller: mfd,
                       decoration: InputDecoration(
                         labelText: 'Manufactured Date',
                       ),
                     ),
 
                     TextField(
+                      controller: building,
                       decoration: InputDecoration(
                         labelText: 'Location- Building Name',
                       ),
                     ),
                     TextField(
+                      controller: floor,
                       decoration: InputDecoration(
                         labelText: 'Location- Floor No.',
                       ),
                     ),
                     TextField(
+                      controller: room,
                       decoration: InputDecoration(
                         labelText: 'Location- Room No.',
                       ),
