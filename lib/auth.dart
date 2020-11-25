@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/demo.dart';
 import 'mainpage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'src/welcomePage.dart';
@@ -67,9 +68,12 @@ class autenticatewrap extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final firebaseuser = context.watch<User>();
-    if (firebaseuser != null) {
+    if(firebaseuser != null){
+    if (firebaseuser.email == 'gowrishvicky@gmail.com') {
       return MainPage();
     }
+    else
+      return Demo();}
     else{
       return WelcomePage();}
   }

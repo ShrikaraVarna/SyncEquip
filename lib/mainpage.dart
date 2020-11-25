@@ -1,7 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_app/addNewpage.dart';
+import 'auth.dart';
 import 'demo.dart';
+
+import 'package:provider/provider.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 class MainPage extends StatelessWidget {
   @override
@@ -31,7 +35,7 @@ class MainPage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(50.0)
                 ),
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => Demo()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => addNewpage()));
                 },
                 color: Colors.amber[600],
                 child: Padding(
@@ -92,10 +96,8 @@ class MainPage extends StatelessWidget {
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(50.0)
             ),
-            onPressed: () {
-              Navigator.pop(
-                context
-              );
+            onPressed: (){
+              context.read<Authenticate>().logout();
             },
             color: Colors.indigo[600],
             child: Padding(
