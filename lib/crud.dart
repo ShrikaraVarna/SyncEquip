@@ -14,15 +14,15 @@ class crudMethods{
   }
 
   Future<void> addData(deviceData) async{
-    //if(isLoggedIn())
-
-      CollectionReference collectionReference= Firestore.instance.collection("DeviceData");
+    if(isLoggedIn()) {
+      CollectionReference collectionReference = FirebaseFirestore.instance
+          .collection("DeviceData");
       collectionReference.add(deviceData).catchError((e) {
         print(e);
       });
-
-      //  else{
-         // print('You need to be logged in');
-    //}
+    }
+        else{
+         print('You need to be logged in');
+    }
       }
   }
