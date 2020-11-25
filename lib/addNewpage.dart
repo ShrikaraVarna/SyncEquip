@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:SyncEquip/demo.dart';
 import 'qrscan.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'crud.dart';
 // Demonstrates how to use autofill hints. The full list of hints is here:
 // https://github.com/flutter/engine/blob/master/lib/web_ui/lib/src/engine/text_editing/autofill_hint.dart
 class addNewpage extends StatefulWidget {
@@ -18,6 +19,8 @@ class _addNewpageState extends State<addNewpage> {
   TextEditingController building = new TextEditingController();
   TextEditingController floor = new TextEditingController();
   TextEditingController room = new TextEditingController();
+
+  crudMethods crudObj= new crudMethods();
 
   Widget _scanButton() {
     return InkWell(
@@ -56,13 +59,25 @@ class _addNewpageState extends State<addNewpage> {
     );
   }
 
+  clearTextInput(){
+    devicedept.clear(); devicename.clear();
+    mfd.clear(); servicedate.clear();
+    room.clear(); building.clear();
+    floor.clear();
+  }
+
   Widget _submitButton() {
     return InkWell(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => Demo()),
-        );
+        Map<String, dynamic> deviceData= {'device_name': this.devicename.text, 'device_dept':this.devicedept.text, 'MFD': this.mfd.text, 'service':this.servicedate.text,
+        'dbuilding':this.building.text, 'dfloor':this.floor.text, 'droom':this.room.text, 'status':"available"};
+        crudObj.addData(deviceData).then((result)
+        {
+          dialogTrigger(context);
+        }).catchError((e){
+          print(e);
+        });
+        clearTextInput();
       },
 
       child: Container(
@@ -90,6 +105,23 @@ class _addNewpageState extends State<addNewpage> {
 
       ),
     );
+  }
+
+  Future<bool> dialogTrigger(BuildContext context) async{
+    return showDialog(context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context)
+    {
+      return AlertDialog(
+        title: Text('Device Added Successfully', style: TextStyle(fontSize: 15.0)),
+        actions: <Widget>[
+          FlatButton(child: Text('OK'),
+            textColor:Colors.black
+            ,onPressed: (){ Navigator.of(context).pop();},
+          )
+        ],
+      );
+    });
   }
 
   @override
@@ -126,32 +158,32 @@ class _addNewpageState extends State<addNewpage> {
                         labelText: "Device's Department",
                       ),
                     ),
-                    TextField(
+                    TextFormField(
                       controller: servicedate,
                       decoration: InputDecoration(
                         labelText: 'Time for next Service',
                       ),
                     ),
-                    TextField(
+                    TextFormField(
                       controller: mfd,
                       decoration: InputDecoration(
                         labelText: 'Manufactured Date',
                       ),
                     ),
 
-                    TextField(
+                    TextFormField(
                       controller: building,
                       decoration: InputDecoration(
                         labelText: 'Location- Building Name',
                       ),
                     ),
-                    TextField(
+                    TextFormField(
                       controller: floor,
                       decoration: InputDecoration(
                         labelText: 'Location- Floor No.',
                       ),
                     ),
-                    TextField(
+                    TextFormField(
                       controller: room,
                       decoration: InputDecoration(
                         labelText: 'Location- Room No.',
