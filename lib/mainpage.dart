@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/addNewpage.dart';
+import 'package:SyncEquip/addNewpage.dart';
 import 'auth.dart';
 import 'demo.dart';
+import 'package:SyncEquip/qrscan.dart';
 
 import 'package:provider/provider.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -77,7 +78,7 @@ class MainPage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(50.0)
             ),
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => Demo()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => QRScan()));
             },
             color: Colors.amber[600],
             child: Padding(

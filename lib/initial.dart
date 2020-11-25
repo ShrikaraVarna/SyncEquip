@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:avatar_glow/avatar_glow.dart';
-import 'package:flutter_app/src/welcomePage.dart';
+import 'package:SyncEquip/src/welcomePage.dart';
 import 'delayed_animation.dart';
 import 'auth.dart';
 

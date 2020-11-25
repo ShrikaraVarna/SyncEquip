@@ -1,12 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/demo.dart';
+import 'package:SyncEquip/demo.dart';
 import 'mainpage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'src/welcomePage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_app/src/loginPage.dart';
+import 'package:SyncEquip/src/loginPage.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:provider/provider.dart';
 

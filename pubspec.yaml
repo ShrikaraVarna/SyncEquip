@@ -1,5 +1,5 @@
-name: flutter_app
-description: A new Flutter application.
+name: SyncEquip
+description: A new medical assest management app.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
@@ -33,6 +33,9 @@ dependencies:
   firebase_database: ^4.3.0
   google_fonts: ^0.3.5
   firebase_auth: ^0.18.3
+  qrscan: ^0.2.19
+  image_gallery_saver: '^1.6.6'
+  image_picker: ^0.6.7+14
   provider: ^4.3.2+1
   avatar_glow:
 
