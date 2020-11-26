@@ -1,8 +1,10 @@
+import 'package:SyncEquip/displayData.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:SyncEquip/addNewpage.dart';
 import 'auth.dart';
 import 'demo.dart';
+import 'display2.dart';
 import 'package:SyncEquip/qrscan.dart';
 
 import 'package:provider/provider.dart';
@@ -58,7 +60,7 @@ class MainPage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(50.0)
             ),
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => Demo()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => display2() ));
             },
             color: Colors.amber,
             child: Padding(
@@ -78,7 +80,7 @@ class MainPage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(50.0)
             ),
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => QRScan()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) =>  QRScan()));
             },
             color: Colors.amber[600],
             child: Padding(

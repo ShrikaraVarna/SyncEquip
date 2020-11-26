@@ -69,7 +69,8 @@ class _addNewpageState extends State<addNewpage> {
   Widget _submitButton() {
     return InkWell(
       onTap: () {
-        Map<String, dynamic> deviceData= {'device_name': this.devicename.text, 'device_dept':this.devicedept.text, 'MFD': this.mfd.text, 'service':this.servicedate.text,
+        Map<String, dynamic> deviceData= {'device_name': this.devicename.text, 'device_dept':this.devicedept.text,
+          'MFD': this.mfd.text, 'service':this.servicedate.text,
         'dbuilding':this.building.text, 'dfloor':this.floor.text, 'droom':this.room.text, 'status':"available"};
         crudObj.addData(deviceData).then((result)
         {
