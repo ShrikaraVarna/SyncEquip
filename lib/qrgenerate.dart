@@ -193,9 +193,7 @@ class _QRGenerateState extends State<QRGenerate> {
               {
                 id = devlist2.docs[i].id;
                 Uint8List result = await scanner.generateBarCode(id);
-                 this.setState(() {
                    this.bytes = result;
-                 });
               }
           }
       }

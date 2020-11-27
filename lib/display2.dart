@@ -1,9 +1,12 @@
+import 'package:SyncEquip/connectorPage.dart';
+import 'package:SyncEquip/location.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'crud.dart';
 import 'dart:ui' as ui;
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'mapDisplay.dart';
 
 class device
 {
@@ -25,8 +28,7 @@ class _display2State extends State<display2> {
   TextEditingController searchText= TextEditingController();
   List tempDocs=[];
   List allDocs=[];
-
-
+  final geoService= Geolocation();
 
   @override
   Widget build(BuildContext context) {
@@ -180,8 +182,37 @@ class _display2State extends State<display2> {
             title: Text( tempDocs[i]['device_name']),
             subtitle: Text(tempDocs[i]['device_dept']),
           ),
-
-            FlatButton(
+            tempDocs[i]['devtype']=="Movable" ?
+            Padding(
+              padding: const EdgeInsets.only(left:70.0),
+              child: Row(
+                children: <Widget>[
+              FlatButton(
+                shape: new RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(15.0),
+                ),
+                child: Text('Location'),
+                onPressed:() {
+                  dialogTrigger(context, i);
+                },
+                color: Colors.greenAccent,
+              ),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: FlatButton(
+                    shape: new RoundedRectangleBorder(
+                      borderRadius: new BorderRadius.circular(15.0),
+                    ),
+                    child: Text('Locate Device'),
+                    onPressed:() {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => connectorPage() ));
+                    },
+                    color: Colors.lightBlueAccent,
+                  ),
+                ),
+                  ],
+              ),
+            ) : FlatButton(
               shape: new RoundedRectangleBorder(
                 borderRadius: new BorderRadius.circular(15.0),
               ),
