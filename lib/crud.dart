@@ -1,7 +1,5 @@
-import 'package:SyncEquip/displayData.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'addNewpage.dart';
 
 class crudMethods {
 
@@ -27,6 +25,9 @@ class crudMethods {
   }
 
    fetchData()  async {
+    return await FirebaseFirestore.instance.collection('DeviceData').getDocuments();
+  }
+  fetchData2()  async {
     return await FirebaseFirestore.instance.collection('DeviceData').getDocuments();
   }
 }

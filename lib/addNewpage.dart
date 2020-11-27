@@ -1,14 +1,16 @@
+import 'package:SyncEquip/qrgenerate.dart';
 import 'package:flutter/material.dart';
 import 'package:SyncEquip/demo.dart';
 import 'qrscan.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'crud.dart';
-// Demonstrates how to use autofill hints. The full list of hints is here:
-// https://github.com/flutter/engine/blob/master/lib/web_ui/lib/src/engine/text_editing/autofill_hint.dart
+
 class addNewpage extends StatefulWidget {
   @override
   _addNewpageState createState() => _addNewpageState();
 }
+
+enum deviceType { Movable, NonMovable }
 
 class _addNewpageState extends State<addNewpage> {
   final _formKey = GlobalKey<FormState>();
@@ -71,14 +73,16 @@ class _addNewpageState extends State<addNewpage> {
       onTap: () {
         Map<String, dynamic> deviceData= {'device_name': this.devicename.text, 'device_dept':this.devicedept.text,
           'MFD': this.mfd.text, 'service':this.servicedate.text,
-        'dbuilding':this.building.text, 'dfloor':this.floor.text, 'droom':this.room.text, 'status':"available"};
+        'dbuilding':this.building.text, 'dfloor':this.floor.text, 'droom':this.room.text, 'status':"available", 'devtype':dtype};
         crudObj.addData(deviceData).then((result)
         {
           dialogTrigger(context);
         }).catchError((e){
           print(e);
         });
-        clearTextInput();
+        Navigator.push(context, MaterialPageRoute(builder: (context) => QRGenerate(name: this.devicename.text)));
+        //clearTextInput();
+
       },
 
       child: Container(
@@ -105,6 +109,41 @@ class _addNewpageState extends State<addNewpage> {
         ),
 
       ),
+    );
+  }
+  deviceType _character = deviceType.Movable;
+  String dtype='';
+  Widget radioButton()
+  {
+    return Column(
+      children: <Widget>[
+        ListTile(
+          title: const Text('Movable'),
+          leading: Radio(
+            value: deviceType.Movable,
+            groupValue: _character,
+            onChanged: (deviceType value) {
+              setState(() {
+                _character = value;
+                dtype='Movable';
+              });
+            },
+          ),
+        ),
+        ListTile(
+          title: const Text('NonMovable'),
+          leading: Radio(
+            value: deviceType.NonMovable,
+            groupValue: _character,
+            onChanged: (deviceType value) {
+              setState(() {
+                _character = value;
+                dtype='NonMovable';
+              });
+            },
+          ),
+        ),
+      ],
     );
   }
 
@@ -190,8 +229,9 @@ class _addNewpageState extends State<addNewpage> {
                         labelText: 'Location- Room No.',
                       ),
                     ),
-                    SizedBox(height: 20),
-                    _scanButton(),
+                    Text('Device type:'),
+                    SizedBox(height: 10),
+                    radioButton(),
                     SizedBox(height: 20),
                     _submitButton(),
                   ].expand(
