@@ -1,7 +1,6 @@
 import 'package:SyncEquip/connectorPage.dart';
 import 'package:SyncEquip/location.dart';
 import 'package:SyncEquip/mainpageAdmin.dart';
-import 'package:SyncEquip/mainpageUser.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -41,7 +40,7 @@ class _display2State extends State<displayData> {
           title: Text('Device Info'),
           leading: new IconButton(
             icon: new Icon(Icons.arrow_back),
-            onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => MainPageUser())),
+            onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => MainPageAdmin())),
           ),
         ),
         body: Center(
