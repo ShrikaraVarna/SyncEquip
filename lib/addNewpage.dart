@@ -1,6 +1,5 @@
 import 'package:SyncEquip/qrgenerate.dart';
 import 'package:flutter/material.dart';
-import 'package:SyncEquip/demo.dart';
 import 'qrscan.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'crud.dart';
@@ -24,42 +23,6 @@ class _addNewpageState extends State<addNewpage> {
 
   crudMethods crudObj= new crudMethods();
 
-  Widget _scanButton() {
-    return InkWell(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => QRScan()),
-        );
-      },
-
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.symmetric(vertical: 10),
-        margin: EdgeInsets.symmetric(horizontal: 60),
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(20)),
-            boxShadow: <BoxShadow>[
-              BoxShadow(
-                  color: Colors.grey.shade200,
-                  offset: Offset(2, 4),
-                  blurRadius: 5,
-                  spreadRadius: 2)
-            ],
-            gradient: LinearGradient(
-                begin: Alignment.centerLeft,
-                end: Alignment.centerRight,
-                colors: [Colors.brown[300], Colors.brown[400]])),
-
-        child: Text(
-          'Scan QR Code',
-          style: TextStyle(fontSize: 20, color: Colors.white),
-        ),
-
-      ),
-    );
-  }
 
   clearTextInput(){
     devicedept.clear(); devicename.clear();

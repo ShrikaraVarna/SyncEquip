@@ -24,10 +24,10 @@ class crudMethods {
     }
   }
 
+
+
    fetchData()  async {
     return await FirebaseFirestore.instance.collection('DeviceData').getDocuments();
   }
-  fetchData2()  async {
-    return await FirebaseFirestore.instance.collection('DeviceData').getDocuments();
-  }
+
 }

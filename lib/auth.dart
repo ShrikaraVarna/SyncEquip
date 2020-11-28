@@ -1,9 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:SyncEquip/demo.dart';
-import 'mainpage.dart';
+import 'mainpageAdmin.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'mainpageUser.dart';
 import 'src/welcomePage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:SyncEquip/src/loginPage.dart';
@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: 'SyncEquip',
         theme: ThemeData(
           primarySwatch: Colors.blue,
           textTheme:GoogleFonts.latoTextTheme(textTheme).copyWith(
@@ -69,11 +69,11 @@ class autenticatewrap extends StatelessWidget {
   Widget build(BuildContext context) {
     final firebaseuser = context.watch<User>();
     if(firebaseuser != null){
-    if (firebaseuser.email == 'gowrishvicky@gmail.com') {
-      return MainPage();
+    if (firebaseuser.email == 'gowrishvicky@gmail.com' || firebaseuser.email == 'shrikara@gmail.com') {
+      return MainPageAdmin();
     }
     else
-      return Demo();}
+      return MainPageUser();}
     else{
       return WelcomePage();}
   }

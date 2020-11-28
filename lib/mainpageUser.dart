@@ -1,16 +1,14 @@
-import 'package:SyncEquip/displayData.dart';
+import 'package:SyncEquip/display2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:SyncEquip/addNewpage.dart';
 import 'auth.dart';
-import 'demo.dart';
-import 'display2.dart';
 import 'package:SyncEquip/qrscan.dart';
 
 import 'package:provider/provider.dart';
 import 'package:firebase_database/firebase_database.dart';
 
-class MainPage extends StatelessWidget {
+class MainPageUser extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,8 +18,8 @@ class MainPage extends StatelessWidget {
         title: Text(
           "SyncEquip",
           style: TextStyle(
-            fontSize: 40,
-            color: Colors.amberAccent
+              fontSize: 40,
+              color: Colors.amberAccent
           ),
         ),
         backgroundColor: Colors.blue,
@@ -35,20 +33,20 @@ class MainPage extends StatelessWidget {
             children: [
               RaisedButton(
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(50.0)
+                    borderRadius: BorderRadius.circular(50.0)
                 ),
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => addNewpage()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => QRScan()));
                 },
                 color: Colors.amber[600],
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 33,horizontal: 33),
                   child: Text(
-                    "ADD NEW",
+                    "SCAN QR",
                     style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 36
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 36
                     ),
                   ),
                 ),
@@ -60,33 +58,13 @@ class MainPage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(50.0)
             ),
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => display2() ));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => display2()));
             },
             color: Colors.amber,
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 33,horizontal: 33),
               child: Text(
                 "CHECK STATUS",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 36
-                ),
-              ),
-            ),
-          ),
-          RaisedButton(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(50.0)
-            ),
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) =>  QRScan()));
-            },
-            color: Colors.amber[600],
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 33,horizontal: 33),
-              child: Text(
-                "SCAN QR",
                 style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
