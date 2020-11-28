@@ -57,7 +57,7 @@ class _InitialState extends State<Initial> with SingleTickerProviderStateMixin {
                               elevation: 6.0,
                               shape: CircleBorder(),
                               child: CircleAvatar(
-                                backgroundColor: Colors.blueAccent[700],
+                                backgroundColor: Colors.cyan[700],
                                 backgroundImage: AssetImage("assets/LOGO.jpg"),
                                 radius: 70,
                               )),
@@ -70,7 +70,7 @@ class _InitialState extends State<Initial> with SingleTickerProviderStateMixin {
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 65.0,
-                                  fontFamily: "Adam",
+                                  fontFamily: "Schyler",
                                   color: color),
                             ),
                           ),

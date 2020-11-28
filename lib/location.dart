@@ -4,7 +4,6 @@ class Geolocation{
   final Geolocator geo= Geolocator();
 
   Stream<Position> getCurrentLocation() {
-    var locationOptions = LocationOptions(accuracy: LocationAccuracy.bestForNavigation, distanceFilter: 1);
     return Geolocator.getPositionStream(desiredAccuracy: LocationAccuracy.bestForNavigation, distanceFilter: 1);
   }
 

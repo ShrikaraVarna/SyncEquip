@@ -6,6 +6,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'location.dart';
 class connectorPage extends StatefulWidget{
+
   @override
   State<StatefulWidget> createState() => _connectorPageState();
 }
@@ -16,6 +17,7 @@ class _connectorPageState extends State<connectorPage>{
   Widget build(BuildContext context) {
     return FutureProvider(create: (context) => geoService.getInitialLocation(),
         child: MaterialApp(
+          debugShowCheckedModeBanner: false,
           title:'Connector',
           theme: ThemeData(
             primarySwatch: Colors.blue,
