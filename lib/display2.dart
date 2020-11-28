@@ -1,5 +1,6 @@
 import 'package:SyncEquip/connectorPage.dart';
 import 'package:SyncEquip/location.dart';
+import 'package:SyncEquip/mainpageAdmin.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -32,50 +33,57 @@ class _display2State extends State<display2> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: AppBar(
-        title: Text('Device Info'),
-      ),
-      body: Center(
-        child:Column(
-          children: [
-            Text(
-                'View Devices',
-              style: TextStyle(
-                fontSize: 40, fontWeight: FontWeight.bold,
-
-                  foreground: Paint()
-                    ..shader = ui.Gradient.linear(
-                      const Offset(0, 75),
-                      const Offset(150, 75),
-                      <Color>[
-                        Colors.lightBlueAccent,
-                        Colors.deepPurple,
-                      ],
-                    ),
-                fontFamily: 'Schyler',
-                fontFamilyFallback: <String>[
-                  'Noto Sans CJK SC',
-                  'Noto Color Emoji',
-                ],
-              ),
-            ),
-          Padding(
-            padding: const EdgeInsets.only(top:10.0,bottom: 10.0, left: 15.0, right: 15.0),
-            child: TextField(
-            controller: searchText,
-            decoration: InputDecoration(
-                hintText: 'Search device',
-                prefixIcon: Icon(Icons.search)
-            ),
-      ),
+    return new WillPopScope(
+      onWillPop: () async => false,
+      child: new Scaffold(
+        appBar: AppBar(
+          title: Text('Device Info'),
+          leading: new IconButton(
+            icon: new Icon(Icons.arrow_back),
+            onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => MainPageAdmin())),
           ),
-            Expanded(
-                child: Container(
-                    child: devListDisplay()
+        ),
+        body: Center(
+          child:Column(
+            children: [
+              Text(
+                  'View Devices',
+                style: TextStyle(
+                  fontSize: 40, fontWeight: FontWeight.bold,
+
+                    foreground: Paint()
+                      ..shader = ui.Gradient.linear(
+                        const Offset(0, 75),
+                        const Offset(150, 75),
+                        <Color>[
+                          Colors.white,
+                          Colors.cyan,
+                        ],
+                      ),
+                  fontFamily: 'Schyler',
+                  fontFamilyFallback: <String>[
+                    'Noto Sans CJK SC',
+                    'Noto Color Emoji',
+                  ],
                 ),
+              ),
+            Padding(
+              padding: const EdgeInsets.only(top:10.0,bottom: 10.0, left: 15.0, right: 15.0),
+              child: TextField(
+              controller: searchText,
+              decoration: InputDecoration(
+                  hintText: 'Search device',
+                  prefixIcon: Icon(Icons.search)
+              ),
+        ),
             ),
-          ],
+              Expanded(
+                  child: Container(
+                      child: devListDisplay()
+                  ),
+              ),
+            ],
+          ),
         ),
       ),
     );

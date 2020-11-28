@@ -42,17 +42,23 @@ class _QRScanState extends State<QRScan> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.amberAccent,
-          title: Text("SyncEquip"),
-          centerTitle: true,
+          title: Text("Scan or Upload QR"),
+          centerTitle: false,
           automaticallyImplyLeading: true,
+          leading: new IconButton(
+            icon: new Icon(Icons.arrow_back),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
         ),
-        backgroundColor: Colors.grey[300],
         body: Builder(
           builder: (BuildContext context) {
             return
                 Container(
-                  color: Colors.blue,
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [Colors.white, Colors.cyan[400]])),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -60,15 +66,19 @@ class _QRScanState extends State<QRScan> {
                       SizedBox(height: 40),
                       this._buttonGroup(this.context),
                       SizedBox(height: 40),
+                      RaisedButton(
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => MainPageAdmin()));
+                        },
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0)
+                        ),
+                        child: Text("Back to Home Page"),
+                      ),
                     ],
                   ),
             );
           },
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () => _scanBytes(),
-          tooltip: 'Take a Photo',
-          child: const Icon(Icons.camera_alt),
         ),
       ),
     );

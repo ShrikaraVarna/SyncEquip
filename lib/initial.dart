@@ -38,7 +38,7 @@ class _InitialState extends State<Initial> with SingleTickerProviderStateMixin {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-          backgroundColor: Colors.blueAccent[700],
+          backgroundColor: Colors.cyan[500],
           body: Center(
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 0),
@@ -57,7 +57,7 @@ class _InitialState extends State<Initial> with SingleTickerProviderStateMixin {
                               elevation: 6.0,
                               shape: CircleBorder(),
                               child: CircleAvatar(
-                                backgroundColor: Colors.cyan[700],
+                                backgroundColor: Colors.cyan[400],
                                 backgroundImage: AssetImage("assets/LOGO.jpg"),
                                 radius: 70,
                               )),
@@ -68,7 +68,7 @@ class _InitialState extends State<Initial> with SingleTickerProviderStateMixin {
                             child: Text(
                               "SyncEquip",
                               style: TextStyle(
-                                  fontWeight: FontWeight.bold,
+                                //fontWeight: FontWeight.bold,
                                   fontSize: 65.0,
                                   fontFamily: "Schyler",
                                   color: color),
@@ -93,14 +93,14 @@ class _InitialState extends State<Initial> with SingleTickerProviderStateMixin {
                                 MaterialPageRoute(builder: (context) => MyApp()),
                               );
                             },
-                            color: Colors.amber[600],
+                            color: Colors.white,
                             child: Padding(
                               padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 33),
                               child: Text(
                                 "CONTINUE",
                                 style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
+                                    color: Colors.cyan[600],
+                                    //fontWeight: FontWeight.bold,
                                     fontSize: 18,
                                     fontFamily: 'Nexa_Light'),
                               ),

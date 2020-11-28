@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:SyncEquip/mainpageAdmin.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
@@ -51,24 +52,30 @@ class _QRGenerateState extends State<QRGenerate> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text("SyncEquip"),
-          centerTitle: true,
-          automaticallyImplyLeading: true,
-
-        ),
-        backgroundColor: Colors.grey[300],
-        body: Builder(
-          builder: (BuildContext context) {
-            return ListView(
-              children: <Widget>[
-                _qrCodeWidget(this.bytes, context),
-              ],
-            );
-          },
+    return new WillPopScope(
+      onWillPop: () async => false,
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: Scaffold(
+          appBar: AppBar(
+            title: Text("SyncEquip"),
+            centerTitle: true,
+            automaticallyImplyLeading: true,
+            leading: new IconButton(
+              icon: new Icon(Icons.arrow_back),
+              onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => MainPageAdmin())),
+            ),
+          ),
+          backgroundColor: Colors.grey[300],
+          body: Builder(
+            builder: (BuildContext context) {
+              return ListView(
+                children: <Widget>[
+                  _qrCodeWidget(this.bytes, context),
+                ],
+              );
+            },
+          ),
         ),
       ),
     );
@@ -90,7 +97,7 @@ class _QRGenerateState extends State<QRGenerate> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget>[
                   Icon(Icons.verified_user, size: 18, color: Colors.green),
-                  Text('  Generate QR Code', style: TextStyle(fontSize: 15)),
+                  Text('  Generated QR Code', style: TextStyle(fontSize: 15)),
                   Spacer(),
                   Icon(Icons.more_vert, size: 18, color: Colors.black54),
                 ],
@@ -119,26 +126,9 @@ class _QRGenerateState extends State<QRGenerate> {
                   Padding(
                     padding: EdgeInsets.only(top: 7, left: 25, right: 25),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Expanded(
-                          flex: 5,
-                          child: GestureDetector(
-                            child: Text(
-                              'Remove',
-                              style: TextStyle(
-                                  fontSize: 15, color: Colors.blue),
-                              textAlign: TextAlign.left,
-                            ),
-                            onTap: () =>
-                                this.setState(() => this.bytes = Uint8List(0)),
-
-                          ),
-                        ),
-                        Text('|', style: TextStyle(fontSize: 15, color: Colors
-                            .black26)),
-                        Expanded(
-                          flex: 5,
                           child: GestureDetector(
                             onTap: () async {
                               final success = await ImageGallerySaver.saveImage(
@@ -151,13 +141,14 @@ class _QRGenerateState extends State<QRGenerate> {
                               } else {
                                 snackBar =
                                 new SnackBar(content: new Text('Save failed!'));
+                                Scaffold.of(context).showSnackBar(snackBar);
                               }
                             },
                             child: Text(
                               'Save',
                               style: TextStyle(
                                   fontSize: 15, color: Colors.blue),
-                              textAlign: TextAlign.right,
+                              textAlign: TextAlign.center,
                             ),
                           ),
                         ),

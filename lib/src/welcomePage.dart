@@ -26,7 +26,7 @@ class _WelcomePageState extends State<WelcomePage> {
             borderRadius: BorderRadius.all(Radius.circular(5)),
             boxShadow: <BoxShadow>[
               BoxShadow(
-                  color: Colors.lightBlueAccent.withAlpha(100),
+                  color: Colors.cyan.withAlpha(100),
                   offset: Offset(2, 4),
                   blurRadius: 8,
                   spreadRadius: 2)
@@ -34,7 +34,7 @@ class _WelcomePageState extends State<WelcomePage> {
             color: Colors.white),
         child: Text(
           'Login',
-          style: TextStyle(fontSize: 20, color: Colors.blue),
+          style: TextStyle(fontSize: 20, color: Colors.cyan[500]),
         ),
       ),
     );
@@ -48,7 +48,7 @@ class _WelcomePageState extends State<WelcomePage> {
           children: <Widget>[
             Text(
               'Quick login with Touch ID',
-              style: TextStyle(color: Colors.blueAccent, fontSize: 17),
+              style: TextStyle(color: Colors.cyan[500], fontSize: 17),
             ),
             SizedBox(
               height: 20,
@@ -60,7 +60,7 @@ class _WelcomePageState extends State<WelcomePage> {
             Text(
               'Touch ID',
               style: TextStyle(
-                color: Colors.blueAccent,
+                color: Colors.cyan[500],
                 fontSize: 15,
                 decoration: TextDecoration.underline,
               ),
@@ -74,20 +74,21 @@ class _WelcomePageState extends State<WelcomePage> {
       textAlign: TextAlign.center,
       text: TextSpan(
           text: 'Sync',
-          style: GoogleFonts.portLligatSans(
+          style: GoogleFonts.montserrat(
             textStyle: Theme.of(context).textTheme.display1,
-            fontSize: 30,
-            fontWeight: FontWeight.w700,
-            color: Colors.blueAccent,
+            fontSize: 50,
+
+            color:Colors.lightBlueAccent[200],
           ),
           children: [
             TextSpan(
               text: 'E',
-              style: TextStyle(color: Colors.black, fontSize: 30),
+              style: TextStyle(color: Colors.blue[400], fontSize: 50,fontWeight:FontWeight.w500),
+
             ),
             TextSpan(
               text: 'quip',
-              style: TextStyle(color: Colors.blueAccent, fontSize: 30),
+              style: TextStyle(color: Colors.lightBlueAccent[200], fontSize: 50),
             ),
           ]),
     );
@@ -98,41 +99,41 @@ class _WelcomePageState extends State<WelcomePage> {
     return Scaffold(
       body:SingleChildScrollView(
         child:Container(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            height: MediaQuery.of(context).size.height,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(5)),
-                boxShadow: <BoxShadow>[
-                  BoxShadow(
-                      color: Colors.grey.shade200,
-                      offset: Offset(2, 4),
-                      blurRadius: 5,
-                      spreadRadius: 2)
-                ],
-                gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [Colors.white, Colors.lightBlue[200]])),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                _title(),
-                SizedBox(
-                  height: 80,
-                ),
-                _submitButton(),
-                SizedBox(
-                  height: 20,
-                ),
-
-                                   SizedBox(
-                  height: 20,
-                ),
-                _label()
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          height: MediaQuery.of(context).size.height,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(5)),
+              boxShadow: <BoxShadow>[
+                BoxShadow(
+                    color: Colors.grey.shade200,
+                    offset: Offset(2, 4),
+                    blurRadius: 5,
+                    spreadRadius: 2)
               ],
-            ),
+              gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [Colors.white, Colors.cyan[400]])),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              _title(),
+              SizedBox(
+                height: 80,
+              ),
+              _submitButton(),
+              SizedBox(
+                height: 20,
+              ),
+
+              SizedBox(
+                height: 20,
+              ),
+              _label()
+            ],
           ),
+        ),
       ),
     );
   }

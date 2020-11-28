@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:SyncEquip/display2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -22,6 +23,13 @@ class _mapDisplayState extends State<mapDisplay>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: new IconButton(
+          icon: new Icon(Icons.arrow_back),
+          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => display2())),
+        ),
+        title: Text("Location"),
+      ),
       body: Center(child: GoogleMap(
         initialCameraPosition: CameraPosition(target: LatLng(
           widget.initialPosition.latitude, widget.initialPosition.longitude), zoom: 18.0),
