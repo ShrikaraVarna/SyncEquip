@@ -1,77 +1,67 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:SyncEquip/mainpageAdmin.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
+
+import 'crud.dart';
+import 'dart:ui' as ui;
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 
 
 class QRScan extends StatefulWidget {
   @override
-  _MyAppState createState() => _MyAppState();
+  _QRScanState createState() => _QRScanState();
 }
 
-class _MyAppState extends State<QRScan> {
+class _QRScanState extends State<QRScan> {
   Uint8List bytes = Uint8List(0);
-  TextEditingController _inputController;
-  TextEditingController _outputController;
+  String id;
+
+  @override
+  QuerySnapshot devlist;
+  crudMethods crudObj = new crudMethods();
 
   @override
   initState() {
+    crudObj.fetchData().then((results) {
+      setState(() {
+        devlist = results;
+      });
+    });
     super.initState();
-    this._inputController = new TextEditingController();
-    this._outputController = new TextEditingController();
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.amberAccent,
+          title: Text("SyncEquip"),
+          centerTitle: true,
+          automaticallyImplyLeading: true,
+        ),
         backgroundColor: Colors.grey[300],
         body: Builder(
           builder: (BuildContext context) {
-            return ListView(
-              children: <Widget>[
-                _qrCodeWidget(this.bytes, context),
+            return
                 Container(
-                  color: Colors.white,
+                  color: Colors.blue,
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      TextField(
-                        controller: this._inputController,
-                        keyboardType: TextInputType.url,
-                        textInputAction: TextInputAction.go,
-                        onSubmitted: (value) => _generateBarCode(value),
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.text_fields),
-                          helperText: 'Please input your code to generage qrcode image.',
-                          hintText: 'Please Input Your Code',
-                          hintStyle: TextStyle(fontSize: 15),
-                          contentPadding: EdgeInsets.symmetric(horizontal: 7, vertical: 15),
-                        ),
-                      ),
-                      SizedBox(height: 20),
-                      TextField(
-                        controller: this._outputController,
-                        maxLines: 2,
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.wrap_text),
-                          helperText: 'The barcode or qrcode you scan will be displayed in this area.',
-                          hintText: 'The barcode or qrcode you scan will be displayed in this area.',
-                          hintStyle: TextStyle(fontSize: 15),
-                          contentPadding: EdgeInsets.symmetric(horizontal: 7, vertical: 15),
-                        ),
-                      ),
-                      SizedBox(height: 20),
-                      this._buttonGroup(),
-                      SizedBox(height: 70),
+                      SizedBox(height: 40),
+                      this._buttonGroup(this.context),
+                      SizedBox(height: 40),
                     ],
                   ),
-                ),
-              ],
             );
           },
         ),
@@ -84,169 +74,89 @@ class _MyAppState extends State<QRScan> {
     );
   }
 
-  Widget _qrCodeWidget(Uint8List bytes, BuildContext context) {
+  Widget _buttonGroup(BuildContext context) {
+    print(this.id);
+    if(this.id!=null)
+      {
+        print("in");
+        get(this.context);
+      }
+    print(this.id);
     return Padding(
-      padding: EdgeInsets.all(20),
-      child: Card(
-        elevation: 6,
-        child: Column(
-          children: <Widget>[
-            Container(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: <Widget>[
-                  Icon(Icons.verified_user, size: 18, color: Colors.green),
-                  Text('  Generate Qrcode', style: TextStyle(fontSize: 15)),
-                  Spacer(),
-                  Icon(Icons.more_vert, size: 18, color: Colors.black54),
-                ],
-              ),
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 9),
-              decoration: BoxDecoration(
-                color: Colors.black12,
-                borderRadius: BorderRadius.only(topLeft: Radius.circular(4), topRight: Radius.circular(4)),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 40, right: 40, top: 30, bottom: 10),
-              child: Column(
-                children: <Widget>[
-                  SizedBox(
-                    height: 190,
-                    child: bytes.isEmpty
-                        ? Center(
-                      child: Text('Empty code ... ', style: TextStyle(color: Colors.black38)),
-                    )
-                        : Image.memory(bytes),
+      padding: const EdgeInsets.all(8.0),
+      child:  this.id == null ? Row(
+        children: <Widget>[
+          Expanded(
+            flex: 1,
+            child: SizedBox(
+              height: 160,
+              child: InkWell(
+                onTap: _scan,
+                child: Card(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Expanded(
+                        flex: 4,
+                        child: Image.asset('assets/Scan.png'),
+                      ),
+                      Divider(height: 20),
+                      Expanded(flex: 1, child: Text("Scan")),
+                    ],
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 7, left: 25, right: 25),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        Expanded(
-                          flex: 5,
-                          child: GestureDetector(
-                            child: Text(
-                              'remove',
-                              style: TextStyle(fontSize: 15, color: Colors.blue),
-                              textAlign: TextAlign.left,
-                            ),
-                            onTap: () => this.setState(() => this.bytes = Uint8List(0)),
-                          ),
-                        ),
-                        Text('|', style: TextStyle(fontSize: 15, color: Colors.black26)),
-                        Expanded(
-                          flex: 5,
-                          child: GestureDetector(
-                            onTap: () async {
-                              final success = await ImageGallerySaver.saveImage(this.bytes);
-                              SnackBar snackBar;
-                              if (success) {
-                                snackBar = new SnackBar(content: new Text('Successful Preservation!'));
-                                Scaffold.of(context).showSnackBar(snackBar);
-                              } else {
-                                snackBar = new SnackBar(content: new Text('Save failed!'));
-                              }
-                            },
-                            child: Text(
-                              'save',
-                              style: TextStyle(fontSize: 15, color: Colors.blue),
-                              textAlign: TextAlign.right,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-                ],
+                ),
               ),
             ),
-            Divider(height: 2, color: Colors.black26),
-            Container(
-              child: Row(
-                children: <Widget>[
-                  Icon(Icons.history, size: 16, color: Colors.black38),
-                  Text('  Generate History', style: TextStyle(fontSize: 14, color: Colors.black38)),
-                  Spacer(),
-                  Icon(Icons.chevron_right, size: 16, color: Colors.black38),
-                ],
+          ),
+          Expanded(
+            flex: 1,
+            child: SizedBox(
+              height: 160,
+              child: InkWell(
+                onTap: _scanPhoto,
+                child: Card(
+                  child: Column(
+                    children: <Widget>[
+                      Expanded(
+                        flex: 4,
+                        child: Image.asset('assets/scan.jpg'),
+                      ),
+                      Divider(height: 20),
+                      Expanded(flex: 1, child: Text("Scan Photo")),
+                    ],
+                  ),
+                ),
               ),
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 9),
-            )
-          ],
-        ),
+            ),
+          ),
+        ],
+      )
+          : Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          RaisedButton(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0)
+            ),
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => MainPageAdmin()));
+            },
+            color: Colors.amber[600],
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 0,horizontal: 13),
+              child: Text(
+                "Back to Home Page",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 26
+                ),
+              ),
+            ),
+          )
+        ],
       ),
-    );
-  }
-
-  Widget _buttonGroup() {
-    return Row(
-      children: <Widget>[
-        Expanded(
-          flex: 1,
-          child: SizedBox(
-            height: 120,
-            child: InkWell(
-              onTap: () => _generateBarCode(this._inputController.text),
-              child: Card(
-                child: Column(
-                  children: <Widget>[
-                    Expanded(
-                      flex: 2,
-                      child: Image.asset('images/generate_qrcode.png'),
-                    ),
-                    Divider(height: 20),
-                    Expanded(flex: 1, child: Text("Generate")),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-        Expanded(
-          flex: 1,
-          child: SizedBox(
-            height: 120,
-            child: InkWell(
-              onTap: _scan,
-              child: Card(
-                child: Column(
-                  children: <Widget>[
-                    Expanded(
-                      flex: 2,
-                      child: Image.asset('images/scanner.png'),
-                    ),
-                    Divider(height: 20),
-                    Expanded(flex: 1, child: Text("Scan")),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-        Expanded(
-          flex: 1,
-          child: SizedBox(
-            height: 120,
-            child: InkWell(
-              onTap: _scanPhoto,
-              child: Card(
-                child: Column(
-                  children: <Widget>[
-                    Expanded(
-                      flex: 2,
-                      child: Image.asset('images/albums.png'),
-                    ),
-                    Divider(height: 20),
-                    Expanded(flex: 1, child: Text("Scan Photo")),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-      ],
     );
   }
 
@@ -255,29 +165,101 @@ class _MyAppState extends State<QRScan> {
     if (barcode == null) {
       print('nothing return.');
     } else {
-      this._outputController.text = barcode;
+      setState(() {
+        this.id=barcode;
+      });
     }
   }
 
   Future _scanPhoto() async {
     String barcode = await scanner.scanPhoto();
-    this._outputController.text = barcode;
+    setState(() {
+      this.id=barcode;
+    });
   }
 
   Future _scanPath(String path) async {
     String barcode = await scanner.scanPath(path);
-    this._outputController.text = barcode;
+    this.id = barcode;
   }
 
   Future _scanBytes() async {
     File file = await ImagePicker.pickImage(source: ImageSource.camera);
     Uint8List bytes = file.readAsBytesSync();
     String barcode = await scanner.scanBytes(bytes);
-    this._outputController.text = barcode;
+    setState(() {
+      this.id=barcode;
+    });
   }
 
-  Future _generateBarCode(String inputCode) async {
-    Uint8List result = await scanner.generateBarCode(inputCode);
-    this.setState(() => this.bytes = result);
+   get(BuildContext context){
+    if(devlist!=null)
+      {
+        Map<String, dynamic> deviceData;
+        print("inside if1");
+        for(var i=0; i<devlist.docs.length; i++)
+          {
+            if(devlist.docs[i].id == this.id)
+              {
+                print('inside if2');
+                print(devlist.docs[i]['status']);
+                if(devlist.docs[i]['status'] == "available")
+                  {
+                    print('inside if3');
+                    deviceData= {'device_name': devlist.docs[i]['device_name'], 'device_dept':devlist.docs[i]['device_dept'],
+                      'MFD': devlist.docs[i]['MFD'], 'service':devlist.docs[i]['service'], 'devtype':devlist.docs[i]['devtype'],
+                      'dbuilding':devlist.docs[i]['dbuilding'], 'dfloor':devlist.docs[i]['dfloor'], 'droom':devlist.docs[i]['droom'], 'status':"unavailable"};
+                    FirebaseFirestore.instance.collection('DeviceData').doc(this.id).update(deviceData);
+                    //dialogTriggerS(context);
+                  }
+                else
+                  {
+                    print("inside else");
+                    deviceData= {'device_name': devlist.docs[i]['device_name'], 'device_dept':devlist.docs[i]['device_dept'],
+                      'MFD': devlist.docs[i]['MFD'], 'service':devlist.docs[i]['service'], 'devtype':devlist.docs[i]['devtype'],
+                      'dbuilding':devlist.docs[i]['dbuilding'], 'dfloor':devlist.docs[i]['dfloor'], 'droom':devlist.docs[i]['droom'], 'status':"available"};
+                    FirebaseFirestore.instance.collection('DeviceData').document(this.id).update(deviceData);
+                    //dialogTriggerG(context);
+                  }
+              }
+          }
+      }
   }
+
+  Future<bool> dialogTriggerS(BuildContext context) async{
+    return showDialog(context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context)
+        {
+          return AlertDialog(
+            title: Text('You have selected this device Successfully', style: TextStyle(fontSize: 15.0)),
+            actions: <Widget>[
+              FlatButton(child: Text('OK'),
+                textColor:Colors.black
+                ,onPressed: (){ Navigator.of(context).pop();},
+              )
+            ],
+          );
+        });
+  }
+
+  Future<bool> dialogTriggerG(BuildContext context) async{
+    return showDialog(context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context)
+        {
+          return AlertDialog(
+            title: Text('Thanks for using this device', style: TextStyle(fontSize: 15.0)),
+            actions: <Widget>[
+              FlatButton(child: Text('OK'),
+                textColor:Colors.black
+                ,onPressed: (){ Navigator.of(context).pop();},
+              )
+            ],
+          );
+        });
+  }
+
+
+
 }

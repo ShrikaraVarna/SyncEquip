@@ -41,7 +41,7 @@ class _QRGenerateState extends State<QRGenerate> {
 
   @override
   void initState() {
-    crudObj.fetchData2().then((results) {
+    crudObj.fetchData().then((results) {
       setState(() {
         devlist2 = results;
       });
@@ -75,8 +75,10 @@ class _QRGenerateState extends State<QRGenerate> {
   }
 
   Widget _qrCodeWidget(Uint8List bytes, BuildContext context) {
-
-    _generateCode(this.bytes);
+    if(this.bytes.isEmpty)
+      {
+        _generateCode();
+      }
     return Padding(
       padding: EdgeInsets.all(20),
       child: Card(
@@ -88,7 +90,7 @@ class _QRGenerateState extends State<QRGenerate> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget>[
                   Icon(Icons.verified_user, size: 18, color: Colors.green),
-                  Text('  Generate Qrcode', style: TextStyle(fontSize: 15)),
+                  Text('  Generate QR Code', style: TextStyle(fontSize: 15)),
                   Spacer(),
                   Icon(Icons.more_vert, size: 18, color: Colors.black54),
                 ],
@@ -107,12 +109,12 @@ class _QRGenerateState extends State<QRGenerate> {
                 children: <Widget>[
                   SizedBox(
                     height: 190,
-                    child: bytes.isEmpty
+                    child: this.bytes.isEmpty
                         ? Center(
-                      child: Text('Empty code ... ',
+                      child: Text('Empty Code ... ',
                           style: TextStyle(color: Colors.black38)),
                     )
-                        : Image.memory(bytes),
+                        : Image.memory(this.bytes),
                   ),
                   Padding(
                     padding: EdgeInsets.only(top: 7, left: 25, right: 25),
@@ -123,7 +125,7 @@ class _QRGenerateState extends State<QRGenerate> {
                           flex: 5,
                           child: GestureDetector(
                             child: Text(
-                              'remove',
+                              'Remove',
                               style: TextStyle(
                                   fontSize: 15, color: Colors.blue),
                               textAlign: TextAlign.left,
@@ -152,7 +154,7 @@ class _QRGenerateState extends State<QRGenerate> {
                               }
                             },
                             child: Text(
-                              'save',
+                              'Save',
                               style: TextStyle(
                                   fontSize: 15, color: Colors.blue),
                               textAlign: TextAlign.right,
@@ -184,7 +186,7 @@ class _QRGenerateState extends State<QRGenerate> {
     );
   }
 
-  Future _generateCode(Uint8List inputCode) async {
+   Future _generateCode() async {
     if(devlist2!=null)
       {
         for(var i =0; i<devlist2.docs.length;i++)
@@ -193,9 +195,9 @@ class _QRGenerateState extends State<QRGenerate> {
               {
                 id = devlist2.docs[i].id;
                 Uint8List result = await scanner.generateBarCode(id);
-                 this.setState(() {
-                   this.bytes = result;
-                 });
+                setState(() {
+                  this.bytes=result;
+                });
               }
           }
       }
