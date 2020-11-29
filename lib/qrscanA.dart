@@ -21,6 +21,8 @@ class QRScan extends StatefulWidget {
 class _QRScanState extends State<QRScan> {
   Uint8List bytes = Uint8List(0);
   String id;
+  String status;
+  Map<String, dynamic> deviceData;
 
   @override
   QuerySnapshot devlist;
@@ -141,32 +143,134 @@ class _QRScanState extends State<QRScan> {
           ),
         ],
       )
-          : Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          RaisedButton(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20.0)
-            ),
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => MainPageAdmin()));
-            },
-            color: Colors.amber[600],
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 0,horizontal: 13),
-              child: Text(
-                "Back to Home Page",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 26
+          : this.status=="available" ? Padding(
+        padding: EdgeInsets.all(20),
+        child: Card(
+          elevation: 6,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget> [
+          Padding(
+          padding: EdgeInsets.only(left: 40, right: 40, top: 30, bottom: 10),
+          child: Column(
+            children: <Widget>[
+              SizedBox(
+                height: 190,
+                child: Text(
+                  "Do you want select this device for use?"
                 ),
               ),
-            ),
-          )
+              Padding(
+                padding: EdgeInsets.only(top: 7, left: 25, right: 25),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    Expanded(
+                      flex: 5,
+                      child: GestureDetector(
+                        child: Text(
+                          'YES',
+                          style: TextStyle(fontSize: 15, color: Colors.blue),
+                          textAlign: TextAlign.center,
+                        ),
+                        onTap: () {
+                          _update();
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => MainPageAdmin()));
+                        },
+                      ),
+                    ),
+                    Text('|', style: TextStyle(fontSize: 15, color: Colors.black26)),
+                    Expanded(
+                      flex: 5,
+                      child: GestureDetector(
+                        onTap: ()  {
+                          setState(() {
+                            this.bytes = null;
+                            this.status = null;
+                          });
+                        },
+                        child: Text(
+                          'NO',
+                          style: TextStyle(fontSize: 15, color: Colors.blue),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
         ],
-      ),
+      )
+        )
+      )
+          : Padding(
+          padding: EdgeInsets.all(20),
+          child: Card(
+              elevation: 6,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget> [
+                  Padding(
+                    padding: EdgeInsets.only(left: 40, right: 40, top: 30, bottom: 10),
+                    child: Column(
+                      children: <Widget>[
+                        SizedBox(
+                          height: 190,
+                          child: Text(
+                              "Do you want remove this device from use?"
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 7, left: 25, right: 25),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: <Widget>[
+                              Expanded(
+                                flex: 5,
+                                child: GestureDetector(
+                                  child: Text(
+                                    'YES',
+                                    style: TextStyle(fontSize: 15, color: Colors.blue),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  onTap: () {
+                                    _update();
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => MainPageAdmin()));
+                                  },
+                                ),
+                              ),
+                              Text('|', style: TextStyle(fontSize: 15, color: Colors.black26)),
+                              Expanded(
+                                flex: 5,
+                                child: GestureDetector(
+                                  onTap: ()  {
+                                    setState(() {
+                                      this.bytes = null;
+                                      this.status = null;
+                                    });
+                                  },
+                                  child: Text(
+                                    'NO',
+                                    style: TextStyle(fontSize: 15, color: Colors.blue),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              )
+          )
+      )
     );
   }
 
@@ -205,7 +309,6 @@ class _QRScanState extends State<QRScan> {
    get(BuildContext context){
     if(devlist!=null)
       {
-        Map<String, dynamic> deviceData;
         print("inside if1");
         for(var i=0; i<devlist.docs.length; i++)
           {
@@ -215,20 +318,20 @@ class _QRScanState extends State<QRScan> {
                 print(devlist.docs[i]['status']);
                 if(devlist.docs[i]['status'] == "available")
                   {
+                    this.status = "available";
                     print('inside if3');
                     deviceData= {'device_name': devlist.docs[i]['device_name'], 'device_dept':devlist.docs[i]['device_dept'],
                       'MFD': devlist.docs[i]['MFD'], 'service':devlist.docs[i]['service'], 'devtype':devlist.docs[i]['devtype'],
                       'dbuilding':devlist.docs[i]['dbuilding'], 'dfloor':devlist.docs[i]['dfloor'], 'droom':devlist.docs[i]['droom'], 'status':"unavailable"};
-                    FirebaseFirestore.instance.collection('DeviceData').doc(this.id).update(deviceData);
                     //dialogTriggerS(context);
                   }
                 else
                   {
+                    this.status = "unavailable";
                     print("inside else");
                     deviceData= {'device_name': devlist.docs[i]['device_name'], 'device_dept':devlist.docs[i]['device_dept'],
                       'MFD': devlist.docs[i]['MFD'], 'service':devlist.docs[i]['service'], 'devtype':devlist.docs[i]['devtype'],
                       'dbuilding':devlist.docs[i]['dbuilding'], 'dfloor':devlist.docs[i]['dfloor'], 'droom':devlist.docs[i]['droom'], 'status':"available"};
-                    FirebaseFirestore.instance.collection('DeviceData').document(this.id).update(deviceData);
                     //dialogTriggerG(context);
                   }
               }
@@ -270,6 +373,8 @@ class _QRScanState extends State<QRScan> {
         });
   }
 
-
+  _update() {
+    FirebaseFirestore.instance.collection('DeviceData').doc(this.id).update(deviceData);
+  }
 
 }
