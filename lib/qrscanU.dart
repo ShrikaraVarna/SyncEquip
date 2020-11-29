@@ -69,7 +69,7 @@ class _QRScanState extends State<QRScanU> {
                     SizedBox(height: 40),
                     RaisedButton(
                       onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => MainPageAdmin()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => MainPageUser()));
                       },
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0)
