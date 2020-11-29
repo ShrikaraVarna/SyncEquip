@@ -47,7 +47,7 @@ class _QRScanState extends State<QRScan> {
           centerTitle: true,
           automaticallyImplyLeading: true,
         ),
-        backgroundColor: Colors.grey[300],
+        backgroundColor: Colors.cyan[300],
         body: Builder(
           builder: (BuildContext context) {
             return
@@ -101,7 +101,7 @@ class _QRScanState extends State<QRScan> {
                         child: Image.asset('assets/Scan.png'),
                       ),
                       Divider(height: 20),
-                      Expanded(flex: 1, child: Text("Scan")),
+                      Expanded(flex: 1, child: Text("Scan QR")),
                     ],
                   ),
                 ),
@@ -122,7 +122,7 @@ class _QRScanState extends State<QRScan> {
                         child: Image.asset('assets/scan.jpg'),
                       ),
                       Divider(height: 20),
-                      Expanded(flex: 1, child: Text("Scan Photo")),
+                      Expanded(flex: 1, child: Text("Upload QR")),
                     ],
                   ),
                 ),

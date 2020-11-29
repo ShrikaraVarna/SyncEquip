@@ -17,7 +17,7 @@ class _connectorPageState extends State<connectorPage>{
   Widget build(BuildContext context) {
     return FutureProvider(create: (context) => geoService.getInitialLocation(),
         child: MaterialApp(
-          debugShowCheckedModeBanner: false,
+          debugShowCheckedModeBanner: true,
           title:'Connector',
           theme: ThemeData(
             primarySwatch: Colors.blue,

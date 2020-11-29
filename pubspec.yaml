@@ -41,7 +41,9 @@ dependencies:
   avatar_glow: ^1.2.0
   geolocator: ^6.1.8
   geoflutterfire: ^2.2.1
-  google_maps_flutter: ^1.0.6
+  google_maps_flutter:
+  google_map_polyline:
+  permission: ^0.1.7
 
 dev_dependencies:
   flutter_test:

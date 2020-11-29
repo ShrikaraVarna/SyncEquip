@@ -8,6 +8,7 @@ import 'dart:ui' as ui;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'mapDisplay.dart';
 
+
 class device
 {
   String title;
@@ -43,7 +44,6 @@ class _display2State extends State<display2> {
                 'View Devices',
               style: TextStyle(
                 fontSize: 40, fontWeight: FontWeight.bold,
-
                   foreground: Paint()
                     ..shader = ui.Gradient.linear(
                       const Offset(0, 75),

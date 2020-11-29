@@ -151,6 +151,8 @@ class _QRGenerateState extends State<QRGenerate> {
                               } else {
                                 snackBar =
                                 new SnackBar(content: new Text('Save failed!'));
+                                Scaffold.of(context).showSnackBar(snackBar);
+
                               }
                             },
                             child: Text(

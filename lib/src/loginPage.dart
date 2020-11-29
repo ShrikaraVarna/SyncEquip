@@ -66,41 +66,41 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _submitButton() {
     return InkWell(
-        onTap: () {
-      context.read<Authenticate>().login(
-        email: Username.text.trim(),
-        password: Password.text.trim()
-      );
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => autenticatewrap()),
-      );
-    },
+      onTap: () {
+        context.read<Authenticate>().login(
+            email: Username.text.trim(),
+            password: Password.text.trim()
+        );
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => autenticatewrap()),
+        );
+      },
 
       child: Container(
-      width: MediaQuery.of(context).size.width,
-      padding: EdgeInsets.symmetric(vertical: 15),
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(5)),
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-                color: Colors.grey.shade200,
-                offset: Offset(2, 4),
-                blurRadius: 5,
-                spreadRadius: 2)
-          ],
-          gradient: LinearGradient(
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-              colors: [Colors.lightBlue[300], Colors.lightBlue[400]])),
+        width: MediaQuery.of(context).size.width,
+        padding: EdgeInsets.symmetric(vertical: 15),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(5)),
+            boxShadow: <BoxShadow>[
+              BoxShadow(
+                  color: Colors.grey.shade200,
+                  offset: Offset(2, 4),
+                  blurRadius: 5,
+                  spreadRadius: 2)
+            ],
+            gradient: LinearGradient(
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+                colors: [Colors.cyan[100], Colors.cyan[400]])),
 
         child: Text(
           'Login',
           style: TextStyle(fontSize: 20, color: Colors.white),
         ),
 
-    ),
+      ),
     );
   }
 
@@ -135,20 +135,20 @@ class _LoginPageState extends State<LoginPage> {
       textAlign: TextAlign.center,
       text: TextSpan(
           text: 'Sync',
-          style: GoogleFonts.portLligatSans(
+          style: GoogleFonts.montserrat(
             textStyle: Theme.of(context).textTheme.display1,
             fontSize: 30,
-            fontWeight: FontWeight.w700,
-            color: Colors.blue,
+            //fontWeight: FontWeight.w700,
+            color: Colors.cyan[400],
           ),
           children: [
             TextSpan(
               text: 'E',
-              style: TextStyle(color: Colors.black, fontSize: 30),
+              style: TextStyle(color: Colors.cyan[400], fontSize: 30),
             ),
             TextSpan(
               text: 'quip',
-              style: TextStyle(color: Colors.blue, fontSize: 30),
+              style: TextStyle(color: Colors.cyan[400], fontSize: 30),
             ),
           ]),
     );
@@ -177,46 +177,46 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
-      return Scaffold(
-          body: Container(
-        height: height,
-        child: Stack(
-          children: <Widget>[
-            Positioned(
-                top: -height * .15,
-                right: -MediaQuery.of(context).size.width * .4,
-                child: BezierContainer()),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox(height: height * .2),
-                    _title(),
-                    SizedBox(height: 50),
-                    _emailPasswordWidget(),
-                    SizedBox(height: 20),
-                    _submitButton(),
-                    Container(
-                      padding: EdgeInsets.symmetric(vertical: 10),
-                      alignment: Alignment.centerRight,
-                      child: Text('Forgot Password ?',
-                          style: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.w500)),
-                    ),
-                    _divider(),
-                    SizedBox(height: height * .055),
-                  ],
+    return Scaffold(
+        body: Container(
+          height: height,
+          child: Stack(
+            children: <Widget>[
+              Positioned(
+                  top: -height * .15,
+                  right: -MediaQuery.of(context).size.width * .4,
+                  child: BezierContainer()),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      SizedBox(height: height * .2),
+                      _title(),
+                      SizedBox(height: 50),
+                      _emailPasswordWidget(),
+                      SizedBox(height: 20),
+                      _submitButton(),
+                      Container(
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                        alignment: Alignment.centerRight,
+                        child: Text('Forgot Password ?',
+                            style: TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.w500)),
+                      ),
+                      _divider(),
+                      SizedBox(height: height * .055),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Positioned(top: 40, left: 0, child: _backButton()),
-          ],
-        ),
-      )
-      );
+              Positioned(top: 40, left: 0, child: _backButton()),
+            ],
+          ),
+        )
+    );
   }
   void writeData()
   {
@@ -228,4 +228,3 @@ class _LoginPageState extends State<LoginPage> {
     });
   }
 } //end of _LoginPageState
-
