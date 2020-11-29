@@ -1,6 +1,6 @@
 import 'package:SyncEquip/qrgenerate.dart';
 import 'package:flutter/material.dart';
-import 'qrscan.dart';
+import 'qrscanA.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'crud.dart';
 

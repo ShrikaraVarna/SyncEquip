@@ -1,6 +1,7 @@
 import 'package:SyncEquip/connectorPage.dart';
 import 'package:SyncEquip/location.dart';
 import 'package:SyncEquip/mainpageAdmin.dart';
+import 'package:SyncEquip/mainpageUser.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -14,15 +15,15 @@ class device
   String title;
   device();
   device.fromSnapshot(DocumentSnapshot snapshot) :
-      title= snapshot['device_name'];
+        title= snapshot['device_name'];
 }
 
-class display2 extends StatefulWidget{
+class displayData extends StatefulWidget{
   @override
   _display2State createState() => _display2State();
 }
 
-class _display2State extends State<display2> {
+class _display2State extends State<displayData> {
   @override
   QuerySnapshot devlist;
   crudMethods crudObj = new crudMethods();
@@ -40,26 +41,26 @@ class _display2State extends State<display2> {
           title: Text('Device Info'),
           leading: new IconButton(
             icon: new Icon(Icons.arrow_back),
-            onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => MainPageAdmin())),
+            onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => MainPageUser())),
           ),
         ),
         body: Center(
           child:Column(
             children: [
               Text(
-                  'View Devices',
+                'View Devices',
                 style: TextStyle(
                   fontSize: 40, fontWeight: FontWeight.bold,
 
-                    foreground: Paint()
-                      ..shader = ui.Gradient.linear(
-                        const Offset(0, 75),
-                        const Offset(150, 75),
-                        <Color>[
-                          Colors.white,
-                          Colors.cyan,
-                        ],
-                      ),
+                  foreground: Paint()
+                    ..shader = ui.Gradient.linear(
+                      const Offset(0, 75),
+                      const Offset(150, 75),
+                      <Color>[
+                        Colors.white,
+                        Colors.cyan,
+                      ],
+                    ),
                   fontFamily: 'Schyler',
                   fontFamilyFallback: <String>[
                     'Noto Sans CJK SC',
@@ -67,20 +68,20 @@ class _display2State extends State<display2> {
                   ],
                 ),
               ),
-            Padding(
-              padding: const EdgeInsets.only(top:10.0,bottom: 10.0, left: 15.0, right: 15.0),
-              child: TextField(
-              controller: searchText,
-              decoration: InputDecoration(
-                  hintText: 'Search device',
-                  prefixIcon: Icon(Icons.search)
-              ),
-        ),
-            ),
-              Expanded(
-                  child: Container(
-                      child: devListDisplay()
+              Padding(
+                padding: const EdgeInsets.only(top:10.0,bottom: 10.0, left: 15.0, right: 15.0),
+                child: TextField(
+                  controller: searchText,
+                  decoration: InputDecoration(
+                      hintText: 'Search device',
+                      prefixIcon: Icon(Icons.search)
                   ),
+                ),
+              ),
+              Expanded(
+                child: Container(
+                    child: devListDisplay()
+                ),
               ),
             ],
           ),
@@ -118,12 +119,12 @@ class _display2State extends State<display2> {
           searchResults.add(snap);
         }
       }
-      }
+    }
     else {
       searchResults = allDocs;
     }
     setState(() {
-        tempDocs=searchResults;
+      tempDocs=searchResults;
     });
   }
 
@@ -160,20 +161,20 @@ class _display2State extends State<display2> {
 
   Widget devListDisplay(){
     if(devlist!=null)
-      {
-        return ListView.builder(
-          itemCount: tempDocs.length,
-          padding: EdgeInsets.all(10.0),
-          itemBuilder: (context,i){
-            return tempDocs[i]['status'] =="available" ?
-             listofItems(context, i) : notAvailable(context, i);
-          },
-        );
-      }
+    {
+      return ListView.builder(
+        itemCount: tempDocs.length,
+        padding: EdgeInsets.all(10.0),
+        itemBuilder: (context,i){
+          return tempDocs[i]['status'] =="available" ?
+          listofItems(context, i) : notAvailable(context, i);
+        },
+      );
+    }
     else
-      {
-        return Center(child: CircularProgressIndicator());
-      }
+    {
+      return Center(child: CircularProgressIndicator());
+    }
   }
 
   notAvailable(context, i)
@@ -184,65 +185,64 @@ class _display2State extends State<display2> {
   listofItems(context,i)
   {
 
-      return Padding(
-        padding: const EdgeInsets.all(5.0),
-        child: Card(
-          //clipBehavior: Clip.antiAlias,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
+    return Padding(
+      padding: const EdgeInsets.all(5.0),
+      child: Card(
+        //clipBehavior: Clip.antiAlias,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        elevation: 5,
+        child: Column(
+          children: <Widget>[ new ListTile(
+            title: Text(tempDocs[i]['device_name']),
+            subtitle: Text(tempDocs[i]['device_dept']),
           ),
-          elevation: 5,
-          child: Column(
-            children: <Widget>[ new ListTile(
-              title: Text(tempDocs[i]['device_name']),
-              subtitle: Text(tempDocs[i]['device_dept']),
-            ),
-              tempDocs[i]['devtype'] == "Movable" ?
-              Padding(
-                padding: const EdgeInsets.only(left: 70.0),
-                child: Row(
-                  children: <Widget>[
-                    FlatButton(
+            tempDocs[i]['devtype'] == "Movable" ?
+            Padding(
+              padding: const EdgeInsets.only(left: 70.0),
+              child: Row(
+                children: <Widget>[
+                  FlatButton(
+                    shape: new RoundedRectangleBorder(
+                      borderRadius: new BorderRadius.circular(15.0),
+                    ),
+                    child: Text('Location', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+                    onPressed: () {
+                      dialogTrigger(context, i);
+                    },
+                    color: Colors.blueAccent,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: FlatButton(
                       shape: new RoundedRectangleBorder(
                         borderRadius: new BorderRadius.circular(15.0),
                       ),
-                      child: Text('Location', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+                      child: Text('Locate Device', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
                       onPressed: () {
-                        dialogTrigger(context, i);
+                        Navigator.push(context, MaterialPageRoute(
+                            builder: (context) => connectorPage()));
                       },
-                      color: Colors.blueAccent,
+                      color: Colors.red,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: FlatButton(
-                        shape: new RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(15.0),
-                        ),
-                        child: Text('Locate Device', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
-                        onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(
-                              builder: (context) => connectorPage()));
-                        },
-                        color: Colors.red,
-                      ),
-                    ),
-                  ],
-                ),
-              ) : FlatButton(
-                shape: new RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(15.0),
-                ),
-                child: Text('Location', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
-                onPressed: () {
-                  dialogTrigger(context, i);
-                },
-                color: Colors.blueAccent,
+                  ),
+                ],
               ),
-            ],
-          ),
+            ) : FlatButton(
+              shape: new RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(15.0),
+              ),
+              child: Text('Location', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+              onPressed: () {
+                dialogTrigger(context, i);
+              },
+              color: Colors.blueAccent,
+            ),
+          ],
         ),
-      );
-    }
+      ),
+    );
+  }
 
-}//End of _display2State class
-
+}
