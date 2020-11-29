@@ -74,7 +74,8 @@ class autenticatewrap extends StatelessWidget {
       return MainPageAdmin();
     }
     else
-      return  MainPageUser();}
+      return  MainPageUser();
+    }
     else{
       return WelcomePage();}
   }

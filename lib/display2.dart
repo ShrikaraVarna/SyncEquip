@@ -165,8 +165,7 @@ class _display2State extends State<display2> {
           itemCount: tempDocs.length,
           padding: EdgeInsets.all(10.0),
           itemBuilder: (context,i){
-            return tempDocs[i]['status'] =="available" ?
-             listofItems(context, i) : notAvailable(context, i);
+            return listofItems(context, i) ;
           },
         );
       }
