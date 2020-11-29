@@ -1,4 +1,3 @@
-import 'package:SyncEquip/displayData.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:SyncEquip/addNewpage.dart';
