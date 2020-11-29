@@ -19,7 +19,7 @@ class mapDisplay extends StatefulWidget{
 class _mapDisplayState extends State<mapDisplay>
 {
   final Geolocation geoService = Geolocation();
-  GoogleMapController _controller;
+  Completer<GoogleMapController> _controller= Completer();
   final Set<Polyline> polyline = {};
   List<LatLng> routecords=[];
   List<LatLng> usercords=[];
@@ -43,7 +43,7 @@ class _mapDisplayState extends State<mapDisplay>
 
   void onMapCreated (GoogleMapController controller){
     setState(() {
-      _controller=(controller);
+      _controller.complete(controller);
       polyline.add(Polyline(
           polylineId: PolylineId('route1'),
           visible: true,
@@ -58,9 +58,8 @@ class _mapDisplayState extends State<mapDisplay>
 
   }
 
-
   Future<void> centerScreen(Position position) async{
-    final GoogleMapController controller= await _controller;
+    final GoogleMapController controller= await _controller.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(position.latitude, position.longitude), zoom: 18.0)));
   }
 
@@ -75,8 +74,8 @@ class _mapDisplayState extends State<mapDisplay>
       //usercords = geoService.getCurrentLocation() as List<LatLng>;
       routecords = await googleMapPolyline.getCoordinatesWithLocation(
           origin: LatLng(12.9103, 77.5408),
-          destination: LatLng(12.9100, 77.5424),
-          mode: RouteMode.driving);
+          destination: LatLng(12.911587071980916, 77.53962326492912),
+          mode: RouteMode.walking);
     }
   }
 
@@ -85,7 +84,7 @@ class _mapDisplayState extends State<mapDisplay>
     super.initState();
     geoService.getCurrentLocation().listen((position){
       getsomePoints();
-      centerScreen(position);
+      //centerScreen(position);
     });
 
   }
